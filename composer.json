@@ -1,0 +1,10 @@
+{
+    "require": {
+        "composer/composer": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "\\": "coin-care/app/models"
+        }
+    }
+}
