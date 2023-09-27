@@ -2,7 +2,6 @@
 
 require "../models/AccountModel.php";
 
-
 class AccountController
 {
     private $accountModel;
@@ -82,7 +81,7 @@ class AccountController
         session_destroy();
 
         // Redirecione para a página de login ou página inicial
-        header("Location: login.php");
+        header("Location: ../views/auth/login.php");
         exit;
     }
 }
@@ -100,7 +99,5 @@ if (isset($_GET['acao'])) {
         $accountController->login();
     } elseif ($acao === 'logout') {
         $accountController->logout();
-    } else {
-        // Lidar com ações desconhecidas ou inválidas aqui, se necessário
-    }
+    }  
 }
