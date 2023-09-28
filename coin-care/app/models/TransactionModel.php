@@ -1,60 +1,87 @@
 <?php
 
+require_once "../../config/database.php";
+
 class TransactionModel
 {
-    private $transaction;
-    private $deposit;
-    private $withdraw;
+    private $id_transacao;
+    private $id_tipo_transacao;
+    private $vl_transacao;
+    private $dt_transacao;
+    private $database;
 
     public function __construct()
     {
-        $this->transaction = new TransactionModel();
+        $this->database = new Database();
     }
 
-    public function getTransaction()
+    public function getId_transacao()
     {
-        return $this->transaction;
+        return $this->id_transacao;
     }
 
-    public function setTransaction($transaction)
+    public function setId_transacao($id_transacao)
     {
-        $this->transaction = $transaction;
+        $this->id_transacao = $id_transacao;
 
         return $this;
     }
 
-    public function getDeposit()
+    public function getid_tipo_transacao()
     {
-        return $this->deposit;
+        return $this->id_tipo_transacao;
     }
 
-    public function setDeposit($deposit)
+    public function setid_tipo_transacao($id_tipo_transacao)
     {
-        $this->deposit = $deposit;
+        $this->id_tipo_transacao = $id_tipo_transacao;
 
         return $this;
     }
 
-    public function getWithdraw()
+    public function getvl_transacao()
     {
-        return $this->withdraw;
+        return $this->vl_transacao;
     }
 
-    public function setWithdraw($withdraw)
+    public function setvl_transacao($vl_transacao)
     {
-        $this->withdraw = $withdraw;
+        $this->vl_transacao = $vl_transacao;
 
         return $this;
     }
 
-    /* FUNÇÃO DE FAZER DEPOSITO
-    public function makeDeposit()
+    public function getdt_transacao()
     {
-        $this->transaction = new TransactionModel();
-        $this->transaction->setAmount($this->getAmount());
-        $this->transaction->setTransactionType('Deposit');
-        $this->transaction->setTransactionDate(date('Y-m-d H:i:s'));
-        $this->transaction->save();
+        return $this->dt_transacao;
     }
-    */ 
+
+    public function setdt_transacao($dt_transacao)
+    {
+        $this->dt_transacao = $dt_transacao;
+
+        return $this;
+    }
+
+    public function transacao($id_tipo_transacao, $dt_transacao, $vl_transacao)
+    {
+        try {
+            $sql = "INSERT INTO transacao (id_tipo_transacao, dt_transacao, vl_transacao) VALUES (:id_tipo_transacao, :dt_transacao, :vl_transacao)";
+
+            // Prepara a consulta
+            $stmt = $this->database->getDatabase()->prepare($sql);
+
+            // Vincula os parâmetros com os valores fornecidos
+            $stmt->bindParam(':id_tipo_transacao', $id_tipo_transacao);
+            $stmt->bindParam(':dt_transacao', $dt_transacao);
+            $stmt->bindParam(':vl_transacao', $vl_transacao);
+
+            // Executa a consulta
+            $stmt->execute();
+
+            echo "Registro inserido com sucesso!";
+        } catch (PDOException $e) {
+            echo "Erro na inserção do registro: " . $e->getMessage();
+        }
+    }
 }

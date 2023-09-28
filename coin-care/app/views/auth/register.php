@@ -5,7 +5,7 @@
 </head>
 <body>
     <h2>Cadastro de Usuário</h2>
-    <form action="processar_cadastro.php" method="POST">
+    <form action="../../controllers/AuthController.php" method="POST">
         <label for="nome">Nome:</label>
         <input type="text" id="nome" name="nome" required><br><br>
 

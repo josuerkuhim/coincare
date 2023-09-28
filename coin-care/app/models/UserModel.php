@@ -1,5 +1,6 @@
 <?php
 
+require_once "../../config/database.php";
 class UserModel
 {
     private $nome;
@@ -91,6 +92,31 @@ class UserModel
     {
         $this->id = $id;
         return $this;
+    }
+
+    public function getUserByEmail($email) {
+        try {
+            $sql = "SELECT * FROM usuario WHERE email = :email";
+            $query = $this->database->getDatabase()->prepare($sql);
+            $query->bindParam(':email', $email, PDO::PARAM_STR);
+            
+            if ($query->execute()) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                if ($result) {
+                    // Retorna os dados do usuário como um array associativo
+                    return $result;
+                } else {
+                    // Retorna null se o usuário não for encontrado
+                    return null;
+                }
+            } else {
+                // Tratar o erro de execução da consulta adequadamente
+                return null;
+            }
+        } catch (PDOException $e) {
+            // Tratar o erro de preparação da consulta adequadamente
+            return null;
+        }
     }
 
     public function cadastro($nome, $email, $senha, $cpf, $telefone, $endereco)
