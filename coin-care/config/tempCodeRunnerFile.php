@@ -1,9 +1,5 @@
 <?php
-class Database
-{
-    private $db;
-
-    public function __construct()
+public function __construct()
     {
         try {
             $this->db = new PDO('pgsql:host=localhost;dbname=coincare;user=postgres;password=123');
@@ -12,9 +8,3 @@ class Database
             echo "Erro na conexão com o banco de dados: " . $e->getMessage();
         }
     }
-
-    public function getDatabase()
-    {
-        return $this->db;
-    }
-}

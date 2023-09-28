@@ -2,22 +2,149 @@
 
 class UserModel
 {
-    private $user;
-    
+    private $nome;
+    private $email;
+    private $senha;
+    private $cpf;
+    private $telefone;
+    private $endereco;
+    private $id;
+    private $database;
+
     public function __construct()
     {
-        $this->user = new UserModel();
+        $this->database = new Database();
     }
 
-    public function getUser()
+    public function getNome()
     {
-        return $this->user;
+        return $this->nome;
     }
 
-    public function setUser($user)
+    public function setNome($nome)
     {
-        $this->user = $user;
-
+        $this->nome = $nome;
         return $this;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    public function getSenha()
+    {
+        return $this->senha;
+    }
+
+    public function setSenha($senha)
+    {
+        $this->senha = $senha;
+        return $this;
+    }
+
+    public function getCpf()
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf($cpf)
+    {
+        $this->cpf = $cpf;
+        return $this;
+    }
+
+    public function getTelefone()
+    {
+        return $this->telefone;
+    }
+
+    public function setTelefone($telefone)
+    {
+        $this->telefone = $telefone;
+        return $this;
+    }
+
+    public function getEndereco()
+    {
+        return $this->endereco;
+    }
+
+    public function setEndereco($endereco)
+    {
+        $this->endereco = $endereco;
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    public function cadastro($nome, $email, $senha, $cpf, $telefone, $endereco)
+    {
+        try {
+            $hashedSenha = password_hash($senha, PASSWORD_DEFAULT); // Hash da senha
+
+            $sql = "INSERT INTO usuario (nome, email, senha, cpf, telefone, endereco) VALUES (:nome, :email, :senha, :cpf, :telefone, :endereco)";
+            $query = $this->database->getDatabase()->prepare($sql);
+            $query->bindParam(':nome', $nome);
+            $query->bindParam(':email', $email);
+            $query->bindParam(':senha', $hashedSenha);
+            $query->bindParam(':cpf', $cpf);
+            $query->bindParam(':telefone', $telefone);
+            $query->bindParam(':endereco', $endereco);
+
+            if ($query->execute()) {
+                echo "Registro inserido com sucesso!";
+            } else {
+                echo "Erro na execução da consulta: " . $query->errorInfo()[2];
+            }
+        } catch (PDOException $e) {
+            echo "Erro na preparação da consulta: " . $e->getMessage();
+        }
+    }
+
+    public function login()
+    {
+        try {
+            $sql = "SELECT * FROM usuario WHERE email = :email";
+            $query = $this->database->getDatabase()->prepare($sql);
+            $query->bindParam(':email', $this->email, PDO::PARAM_STR);
+
+            if ($query->execute()) {
+                $result = $query->fetch(PDO::FETCH_ASSOC);
+                if ($result && password_verify($this->senha, $result['senha'])) {
+                    $this->setId($result['id']);
+                    $this->setNome($result['nome']);
+                    $this->setEmail($result['email']);
+                    $this->setSenha($result['senha']);
+                    $this->setCpf($result['cpf']);
+                    $this->setTelefone($result['telefone']);
+                    $this->setEndereco($result['endereco']);
+                    return true;
+                } else {
+                    return false; // Senha incorreta ou usuário não encontrado
+                }
+            } else {
+                // Tratar o erro de execução da consulta adequadamente
+                return false;
+            }
+        } catch (Exception $e) {
+            // Tratar o erro de preparação da consulta adequadamente
+            return false;
+        }
     }
 }
