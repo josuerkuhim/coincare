@@ -1,0 +1,5 @@
+AuthType "Basic"
+AuthName "Acesso Restrito"
+AuthUserFile "/home/u/usuario/www/models/.htpasswd"
+Require valid-user
+

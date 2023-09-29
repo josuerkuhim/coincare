@@ -21,9 +21,6 @@
         <label for="telefone">Telefone:</label>
         <input type="tel" id="telefone" name="telefone"><br><br>
 
-        <label for="endereco">Endereço:</label>
-        <textarea id="endereco" name="endereco" rows="4" cols="50"></textarea><br><br>
-
         <input type="submit" value="Cadastrar">
     </form>
 </body>

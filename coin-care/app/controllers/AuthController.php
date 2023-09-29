@@ -11,7 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $senha = $_POST['senha'];
     $cpf = $_POST['cpf'];
     $telefone = $_POST['telefone'];
-    $endereco = $_POST['endereco'];
 
     // Verifica se o usuário já existe
     $user = $userModel->getUserByEmail($email);
@@ -19,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verifica se o usuário já existe
     if (!$user) {
         // Cria o usuário
-        $userModel->cadastro($nome, $email, $senha, $cpf, $telefone, $endereco);
+        $userModel->cadastro($nome, $email, $senha, $cpf, $telefone);
         // Redireciona para a página de login
         header('Location: login.php');
     } else {

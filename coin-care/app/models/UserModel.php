@@ -8,7 +8,6 @@ class UserModel
     private $senha;
     private $cpf;
     private $telefone;
-    private $endereco;
     private $id;
     private $database;
 
@@ -72,17 +71,6 @@ class UserModel
         return $this;
     }
 
-    public function getEndereco()
-    {
-        return $this->endereco;
-    }
-
-    public function setEndereco($endereco)
-    {
-        $this->endereco = $endereco;
-        return $this;
-    }
-
     public function getId()
     {
         return $this->id;
@@ -119,19 +107,18 @@ class UserModel
         }
     }
 
-    public function cadastro($nome, $email, $senha, $cpf, $telefone, $endereco)
+    public function cadastro($nome, $email, $senha, $cpf, $telefone)
     {
         try {
             $hashedSenha = password_hash($senha, PASSWORD_DEFAULT); // Hash da senha
 
-            $sql = "INSERT INTO usuario (nome, email, senha, cpf, telefone, endereco) VALUES (:nome, :email, :senha, :cpf, :telefone, :endereco)";
+            $sql = "INSERT INTO usuario (nome, email, senha, cpf, telefone) VALUES (:nome, :email, :senha, :cpf, :telefone)";
             $query = $this->database->getDatabase()->prepare($sql);
             $query->bindParam(':nome', $nome);
             $query->bindParam(':email', $email);
             $query->bindParam(':senha', $hashedSenha);
             $query->bindParam(':cpf', $cpf);
             $query->bindParam(':telefone', $telefone);
-            $query->bindParam(':endereco', $endereco);
 
             if ($query->execute()) {
                 echo "Registro inserido com sucesso!";
@@ -159,7 +146,6 @@ class UserModel
                     $this->setSenha($result['senha']);
                     $this->setCpf($result['cpf']);
                     $this->setTelefone($result['telefone']);
-                    $this->setEndereco($result['endereco']);
                     return true;
                 } else {
                     return false; // Senha incorreta ou usuário não encontrado
