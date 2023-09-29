@@ -107,6 +107,8 @@ class UserModel
         }
     }
 
+    //TODO IMPLEMENTAR FUNCIONALIDADE DE BLOQUEIO PARA AS CONTAS
+
     public function cadastro($nome, $email, $senha, $cpf, $telefone)
     {
         try {
@@ -130,13 +132,15 @@ class UserModel
         }
     }
 
+    //TODO IMPLEMENTAR FUNCIONALIDADE DE BLOQUEIO PARA AS CONTAS
+
     public function login()
     {
         try {
             $sql = "SELECT * FROM usuario WHERE email = :email";
             $query = $this->database->getDatabase()->prepare($sql);
             $query->bindParam(':email', $this->email, PDO::PARAM_STR);
-
+    
             if ($query->execute()) {
                 $result = $query->fetch(PDO::FETCH_ASSOC);
                 if ($result && password_verify($this->senha, $result['senha'])) {
@@ -146,7 +150,8 @@ class UserModel
                     $this->setSenha($result['senha']);
                     $this->setCpf($result['cpf']);
                     $this->setTelefone($result['telefone']);
-                    return true;
+                    
+                    return $result['id']; // Retorna o id_usuario quando a autenticação é bem-sucedida
                 } else {
                     return false; // Senha incorreta ou usuário não encontrado
                 }

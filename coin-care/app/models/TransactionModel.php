@@ -63,6 +63,8 @@ class TransactionModel
         return $this;
     }
 
+    //TODO IMPLEMENTAR FUNCIONALIDADE DE BLOQUEIO PARA AS CONTAS
+
     public function transacao($id_tipo_transacao, $dt_transacao, $vl_transacao)
     {
         try {

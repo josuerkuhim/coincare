@@ -1,6 +1,8 @@
 <?php
 require_once "../models/UserModel.php";
 
+//TODO IMPLEMENTAR FUNCIONALIDADE DE BLOQUEIO PARA AS CONTAS
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Captura os dados do formulário
     $email = $_POST['email'];
@@ -21,4 +23,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Usuário ou senha inválidos!";
     }
 }
-?>
