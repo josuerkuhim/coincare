@@ -22,6 +22,7 @@
         <input type="tel" id="telefone" name="telefone"><br><br>
 
         <input type="submit" value="Cadastrar">
+        <span>TESTE</span>
     </form>
 </body>
 </html>
